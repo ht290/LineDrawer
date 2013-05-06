@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Graph {
     private BufferedImage image;
     private Graphics2D graphics2D;
-    private static final int INT_GRB_WHITE = -1;
+    private static final int INT_RGB_WHITE = -1;
 
     public BufferedImage getImage() {
         return image;
@@ -31,11 +31,15 @@ public class Graph {
         return new Graph(image.getSubimage(x, y, w, h));
     }
 
+    public Graph getSubGraph(Square s) {
+        return getSubGraph(s.x, s.y, s.l, s.l);
+    }
+
     public boolean isAllWhite() {
         boolean allWhite = true;
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
-                if (image.getRGB(x, y) != INT_GRB_WHITE) {
+                if (image.getRGB(x, y) != INT_RGB_WHITE) {
                     allWhite = false;
                 }
             }
@@ -45,6 +49,22 @@ public class Graph {
 
     public void add(Graph g, int x, int y) {
         image.createGraphics().drawImage(g.getImage(), x, y, null);
+    }
+
+    public void add(Graph g, Square square) {
+        add(g, square.x, square.y);
+    }
+
+    public boolean isWhite(int x, int y) {
+        return image.getRGB(x, y) == INT_RGB_WHITE;
+    }
+
+    public int getColor(int x, int y) {
+        return image.getRGB(x, y);
+    }
+
+    public void setColor(int x, int y, int color) {
+        image.setRGB(x, y, color);
     }
 
     public Graph(String path) throws IOException {

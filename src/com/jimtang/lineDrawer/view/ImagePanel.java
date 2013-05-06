@@ -1,27 +1,24 @@
 package com.jimtang.lineDrawer.view;
 
-import com.jimtang.lineDrawer.model.Graph;
-import com.jimtang.lineDrawer.model.GraphDrawer;
+import com.jimtang.lineDrawer.controller.DrawerController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class ImagePanel extends JPanel {
-    private GraphDrawer graphDrawer;
+    private DrawerController drawerController;
 
     public ImagePanel() {
-        try {
-            graphDrawer = new GraphDrawer(new Graph("resources/edgar_1_md.gif"));
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        drawerController = new DrawerController();
+        drawerController.registerListener(this);
+        drawerController.setStrokeSize(10);
+        drawerController.start(200);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(graphDrawer.getNextFrame().getImage(), 0, 0, null);
+        g.drawImage(drawerController.getImage(), 0, 0, null);
     }
 
 }
